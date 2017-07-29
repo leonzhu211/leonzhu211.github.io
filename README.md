@@ -10,7 +10,18 @@
 ## 机器学习
 基于scikit-learn，并使用matplotlib进行可视化。
 
-## 纯网页内容的演示
+## HTML演示
+### 样式表之带背景的文字
 <div style='background: pink;'>
  这是一段带有背景色的文字。
 </div>
+
+### 嵌套其他页面
+<iframe src='http://www.baidu.com' style='width: 600px; height: 400px;'>
+</iframe>
+
+### JS 执行
+<div id='leon_id_1'>这里应该追加动态内容：</div>
+<script>
+document.getElementById('leon_id_1').innerHTML += '动态的内容';
+</script>
