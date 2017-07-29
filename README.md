@@ -25,3 +25,7 @@
 <script>
 document.getElementById('leon_id_1').innerHTML += '动态的内容';
 </script>
+
+### GITHUB 内的子页面
+[子页面](subpage1.html)
+
