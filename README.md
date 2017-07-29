@@ -16,9 +16,9 @@
  这是一段带有背景色的文字。
 </div>
 
-### 嵌套其他页面
-<iframe src='http://www.baidu.com' style='width: 600px; height: 400px;'>
-</iframe>
+### 链接
+1. [商场模型]（http://xray.cjfx100.net/Three/mview.html?data=test-view-in-2'）
+1. [一个小建筑]（http://xray.cjfx100.net/Three/mview.html?data=test-view-in'）
 
 ### JS 执行
 <div id='leon_id_1'>这里应该追加动态内容：</div>
