@@ -9,3 +9,8 @@
 
 ## 机器学习
 基于scikit-learn，并使用matplotlib进行可视化。
+
+## 纯网页内容的演示
+<div style='background: pink;'>
+ 这是一段带有背景色的文字。
+</div>
