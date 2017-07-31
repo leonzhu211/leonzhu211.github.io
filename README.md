@@ -16,9 +16,9 @@
  这是一段带有背景色的文字。
 </div>
 
-### 链接
-1. [商场模型](http://xray.cjfx100.net/Three/mview.html?data=test-view-in-2)
-1. [一个小建筑](http://xray.cjfx100.net/Three/mview.html?data=test-view-in)
+### 外部链接
+1. [Three.js粒子系统](https://threejs.org/examples/#webgl_points_random)
+
 
 ### JS 执行
 <div id='leon_id_1'>这里应该追加动态内容：</div>
