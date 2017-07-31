@@ -1,5 +1,5 @@
-# leonzhu211.github.io
-阿朱博客
+# 阿朱博客
+程序猿
 
 ## 程序设计
 个人使用过的语言有C, Python, go, shell, js, html, css, Makefile。目前主攻 C 和 Python。
