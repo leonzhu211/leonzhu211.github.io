@@ -85,7 +85,8 @@ function PageBaseRule() {
 }
 
 function PageBaseRuleAnimate() {
-    this.prototype = _PageAnimateWrapper(PageBaseRule)();
+    var f = _PageAnimateWrapper(PageBaseRule);
+    this.prototype = new f();
 }
 
 function PageBaseDivide4x4x4() {
