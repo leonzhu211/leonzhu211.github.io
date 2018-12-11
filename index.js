@@ -63,8 +63,6 @@ Vue.prototype.showMessage = function (msg) {
     app.snackbarText = msg;
 };
 
-Vue.use(VuetifyUploadButton);
-
 var ExVue = Vue.extend(Main)
 var app = new ExVue({
     router,
