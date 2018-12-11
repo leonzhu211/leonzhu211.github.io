@@ -61,7 +61,8 @@ function PageBlockBase4x4() {
 }
 
 function PageBlockBase4x4Animate() {
-    return _PageAnimateWrapper(PageBlockBase4x4)();
+    var f = _PageAnimateWrapper(PageBlockBase4x4)();
+    return new f();
 }
 
 function PageBlockDoubleCyleToLine() {
