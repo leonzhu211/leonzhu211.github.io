@@ -1,9 +1,63 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    </head>
 
-    <body style='margin: 10px'>
-    <a href='knight/index.html'>knight</a>
-    </body>
+<head>
+	<meta charset="utf-8">
+	<title>CJFX100</title>
+	<script src="//unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons'
+	 rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<div id="app">
+		<v-app>
+			<v-toolbar app fixed dense>
+				<!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
+				<v-menu offset-y v-for="(menuGroup, groupIndex) in menuItems" :key="groupIndex"
+				 style="padding-left: 10px; padding-right: 10px; border-right: 1px solid gray">
+					<v-toolbar-title slot="activator">
+						<span>{{menuGroup.group}}</span>
+						<!-- <v-icon>{{menuGroup.icon}}</v-icon> -->
+					</v-toolbar-title>
+					<v-list>
+						<v-list-tile v-for="(menuItem, itemIndex) in menuGroup.items" :key="itemIndex"
+						 @click="onClickMenu(menuItem.action)">
+							<v-list-tile-title v-text="menuItem.title"></v-list-tile-title>
+							<v-list-tile-action>
+								<v-icon v-text="menuItem.icon"></v-icon>
+							</v-list-tile-action>
+						</v-list-tile>
+					</v-list>
+				</v-menu>
+			</v-toolbar>
+			<v-container style='margin-top: 50px;'>
+				<router-view></router-view>
+			</v-container>
+			</v-content>
+			<v-snackbar v-model="snackbar" :timeout="2000" :right="true" :top="true"
+			 :color="'red'" style='color:white;'>
+				{{ snackbarText }}
+			</v-snackbar>
+		</v-app>
+	</div>
+
+	<template id='templateHomePage'>
+		<div id='containerHomePage'>
+			Leonzhu211
+            <hr/>
+            <a href='knight/index.html'>马周游问题</a>
+		</div>
+	</template>
+</body>
+<script src="//unpkg.com/vue@2.5.17/dist/vue.js"></script>
+<script src="//unpkg.com/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src="vue/vuetify-upload-button.min.js"></script>
+<script type="text/javascript" src="index.js"></script>
+
 </html>
