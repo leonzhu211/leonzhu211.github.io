@@ -1,43 +1,42 @@
 var componentHomePage = {
     template: '#templateHomePage',
-}
+};
 
-
-var pathItems = [
-    'homePage',
-]
+var pathItems = ['homePage'];
 
 var router = new VueRouter({
-    'routes': pathItems.map(function (item) {
+    routes: pathItems.map(function (item) {
         var arr = item.split('/');
         return {
             name: arr[0],
             path: '/' + item,
-            component: window['component' + arr[0][0].toUpperCase() + arr[0].slice(1, arr[0].length)],
-        }
-    })
-})
+            component: window[
+                'component' + arr[0][0].toUpperCase() + arr[0].slice(1, arr[0].length)
+            ],
+        };
+    }),
+});
 
 var Main = {
     data() {
         return {
-            snackbarText: "",
+            snackbarText: '',
             snackbar: false,
             activeIndex: this.$route.name,
             menuItems: [{
-                group: '栏目一',
+                group: '首页',
                 icon: 'work',
                 items: [{
                         action: 'homePage',
-                        title: '1-1',
-                        icon: 'add',
+                        title: '建设中',
+                        icon: 'build',
                     },
                     {
                         action: 'homePage',
-                        title: '1-2',
-                        icon: 'list',
+                        title: '建设中',
+                        icon: 'build',
                     },
-                ]
+                ],
             }, ],
         };
     },
@@ -48,14 +47,14 @@ var Main = {
                 if (action == item) {
                     console.log('router push', item);
                     this.$router.push({
-                        name: item
+                        name: item,
                     });
                     return false;
                 }
             });
         },
-    }
-}
+    },
+};
 
 Vue.prototype.showMessage = function (msg) {
     console.log('showMessage:', msg, this);
@@ -63,17 +62,19 @@ Vue.prototype.showMessage = function (msg) {
     app.snackbarText = msg;
 };
 
-var ExVue = Vue.extend(Main)
+var ExVue = Vue.extend(Main);
 var app = new ExVue({
     router,
     data: {},
 });
-app.$mount('#app')
+app.$mount('#app');
 
 // goto homepage on invalid url
-if (pathItems.map((item) => item.split('/')[0]).indexOf(app.$route.name) == -1) {
+if (
+    pathItems.map(item => item.split('/')[0]).indexOf(app.$route.name) == -1
+) {
     app.$router.push({
         name: 'homePage',
-        params: {}
+        params: {},
     });
 }

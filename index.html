@@ -18,6 +18,9 @@
 		<v-app>
 			<v-toolbar app fixed dense>
 				<!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
+				<a href='#/homePage'>
+					<img src='favicon.ico' style='width:24px;height:24px;' />
+				</a>
 				<v-menu offset-y v-for="(menuGroup, groupIndex) in menuItems" :key="groupIndex"
 				 style="padding-left: 10px; padding-right: 10px; border-right: 1px solid gray">
 					<v-toolbar-title slot="activator">
@@ -48,9 +51,7 @@
 
 	<template id='templateHomePage'>
 		<div id='containerHomePage'>
-			Leonzhu211
-            <hr/>
-            <a href='knight/index.html'>马周游问题</a>
+			<a href='knight/index.html'>马周游问题</a>
 		</div>
 	</template>
 </body>
