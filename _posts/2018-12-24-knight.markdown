@@ -4,6 +4,6 @@ title:  "马周游问题"
 date:   2018-12-24 12:12:30 +0800
 categories: js
 ---
-深圳大学在职硕士《数据结构》课程小组设计。
+深圳大学硕士《数据结构》课程小组设计。
 
 [演示链接](https://leonzhu211.github.io/knight/knight.html?type=page&op=BlockSingleCycle8x8Anywhere)
