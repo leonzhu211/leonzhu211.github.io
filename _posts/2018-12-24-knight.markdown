@@ -6,4 +6,4 @@ categories: js
 ---
 深圳大学在职硕士时《数据结构》课程的小组设计。
 
-[演示链接]: https://leonzhu211.github.io/knight/knight.html?type=page&op=BlockSingleCycle8x8Anywhere
+[演示链接](https://leonzhu211.github.io/knight/knight.html?type=page&op=BlockSingleCycle8x8Anywhere)
