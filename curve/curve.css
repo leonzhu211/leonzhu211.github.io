@@ -1,0 +1,18 @@
+.ball {
+    position: absolute;
+    background: black;
+    width: 30px;
+    height: 30px;
+}
+
+.container {
+    position: absolute;
+    border: 1px solid white;
+}
+
+.dot {
+    position: absolute;
+    width:1px;
+    height:1px;
+    background: red;
+}
