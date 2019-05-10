@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src='../curve/jquery-3.3.1.min.js'></script>
+    <link rel="stylesheet" href='lifegame.css'>
+    </link>
+    <script src='lifegame.js'></script>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>宽</td>
+            <td><input id='w' type='text' value='80' /></td>
+            <td>高</td>
+            <td><input id='h' type='text' value='80' /></td>
+        </tr>
+        <tr>
+            <td>大小</td>
+            <td><input id='size' type='text' value='4' /></td>
+            <td>颜色</td>
+            <td><input id='color' type='text' value='red' /></td>
+        </tr>
+        <tr>
+            <td>速度</td>
+            <td><input id='speed' type='text' value='20' /></td>
+            <td>世代</td>
+            <td style='text-align: right;'><span id='generation'>0</span></td>
+        </tr>
+    </table>
+    <div>
+        <input type='button' onclick='randInit2()' value='随机1/2' />
+        <input type='button' onclick='randInit4()' value='随机1/4' />
+        <input type='button' onclick='randInit8()' value='随机1/8' />
+        <br />
+        <input type='button' onclick='stop()' value='暂停' />
+        <input type='button' onclick='play()' value='演进' />
+        <input type='button' onclick='next()' value='单步' />
+        <input type='button' onclick='clearBoard()' value='清空' />
+    </div>
+    <div id='container'>
+
+    </div>
+</body>
+
+</html>
