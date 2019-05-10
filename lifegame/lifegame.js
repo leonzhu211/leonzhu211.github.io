@@ -60,7 +60,7 @@ LifeGame.prototype.init = function () {
     // 世代
     this.generation = 0;
     this.eGeneration = $('#generation');
-    this.eGeneration.html(this.generation);
+    this.eGeneration.val(this.generation);
 
     // 鼠标画图
     this.mouseDraw = false;
@@ -225,7 +225,7 @@ LifeGame.prototype.draw = function () {
             this.context.fillRect(x * this.size1, y * this.size1, this.size, this.size);
         }
     }
-    this.eGeneration.html(this.generation);
+    this.eGeneration.val(this.generation);
 }
 
 LifeGame.prototype.start = function () {
