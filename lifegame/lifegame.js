@@ -105,7 +105,23 @@ LifeGame.prototype.init = function () {
         self.onCanvasMouseOut(e);
     });
 
+    cs.addEventListener('touchmove', function (e) {
+        self.onCanvasTouchMove(e);
+    });
+
+    cs.addEventListener('touchend', function (e) {
+        self.onCanvasTouchEnd(e);
+    });
+
     this.draw();
+}
+
+LifeGame.prototype.onCanvasTouchMove = function (e) {
+    this.onCanvasClick(e);
+}
+
+LifeGame.prototype.onCanvasTouchEnd = function (e) {
+    //
 }
 
 LifeGame.prototype.onClickClear = function () {
