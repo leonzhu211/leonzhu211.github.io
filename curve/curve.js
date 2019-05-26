@@ -9,7 +9,7 @@ function Curve() {
     this.theta = 0;
     this.step = 0.001;
 
-    this.times = 1000;
+    this.times = 500;
     this.R = 400;
     this.r = parseInt(this.R / 2) + 7;
     this.d = parseInt(this.r / 2) + 7;
@@ -40,7 +40,7 @@ function Curve() {
 
 Curve.prototype.paramToHash = function () {
     var hash = '#main';
-    var arr = [this.times, this.r, this.d, this.a1, this.a2, this.a3, this.a4, this.color];
+    var arr = [this.r, this.d, this.a1, this.a2, this.a3, this.a4, this.color];
     for (var i = 0; i < arr.length; i++) {
         hash += '/' + arr[i];
     }
@@ -56,7 +56,6 @@ Curve.prototype.hashToParam = function () {
         return;
     }
     var i = 1;
-    this.times = parseFloat(arr[i++]);
     this.r = parseFloat(arr[i++]);
     this.d = parseFloat(arr[i++]);
     this.a1 = parseFloat(arr[i++]);
@@ -89,10 +88,21 @@ Curve.prototype.randArg = function () {
 
 Curve.prototype.onclickRandomStart1234 = function () {
     this.random0();
-    this.a1 = this.randArg();
-    this.a2 = this.randArg();
-    this.a3 = this.randArg();
-    this.a4 = this.randArg();
+    var arr = ['1', '2', '3', '4', '12', '24', '13', '24', '1234'];
+    var i = this.randInt(0, arr.length - 1);
+    var e = arr[i];
+    if (e.indexOf('1') >= 0) {
+        this.a1 = this.randArg();
+    }
+    if (e.indexOf('2') >= 0) {
+        this.a2 = this.randArg();
+    }
+    if (e.indexOf('3') >= 0) {
+        this.a3 = this.randArg();
+    }
+    if (e.indexOf('4') >= 0) {
+        this.a4 = this.randArg();
+    }
     this.onclickStart();
 }
 
