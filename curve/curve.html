@@ -9,49 +9,11 @@
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td>外圆半径</td>
-            <td><input id='R' type='text' value='300' /></td>
-            <td>参数1</td>
-            <td><input id='a1' type='text' value='1.0' /></td>
-        </tr>
-        <tr>
-            <td>内圆半径</td>
-            <td><input id='r' type='text' value='113' /></td>
-            <td>参数2</td>
-            <td><input id='a2' type='text' value='1.0' /></td>
-        </tr>
-        <tr>
-            <td>点距内圆心</td>
-            <td><input id='d' type='text' value='51' /></td>
-            <td>参数3</td>
-            <td><input id='a3' type='text' value='1.0' /></td>
-        </tr>
-        <tr>
-            <td>速度</td>
-            <td><input id='speed' type='text' value='200' /></td>
-            <td>参数4</td>
-            <td><input id='a4' type='text' value='1.0' /></td>
-        </tr>
-        <tr>
-            <td>颜色</td>
-            <td><input id='color' type='text' value='#ff0000' /></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
     <div>
-        <input type='button' onclick='defaultstart()' value='默认' />
-        <input type='button' onclick='randomstart0()' value='随机0' />
-        <input type='button' onclick='randomstart12()' value='随机12' />
-        <input type='button' onclick='randomstart34()' value='随机34' />
-        <input type='button' onclick='randomstart13()' value='随机13' />
-        <input type='button' onclick='randomstart24()' value='随机24' />
-        <input type='button' onclick='randomstart1234()' value='随机1234' />
-        <input type='button' onclick='start()' value='开始' />
-        <input id='btnPlay' type='button' value='暂停'
-            style='visibility: hidden' />
+        <input type='button' onclick='randomstart0()' value='普通' />
+        <input type='button' onclick='randomstart1234()' value='混乱' />
+        <input type='button' onclick='start()' value='重放' />
+        <input id='btnPlay' type='button' value='暂停' />
     </div>
     <div id='container'>
 
