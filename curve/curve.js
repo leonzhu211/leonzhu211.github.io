@@ -10,7 +10,7 @@ function Curve() {
     this.step = 0.001;
 
     this.times = 500;
-    this.R = 400;
+    this.R = 720;
     this.r = parseInt(this.R / 2) + 7;
     this.d = parseInt(this.r / 2) + 7;
 
@@ -19,7 +19,7 @@ function Curve() {
     this.a3 = 1.0;
     this.a4 = 1.0;
 
-    this.color = '#ff0000';
+    this.color = this.randColor();
 
     this.container = $('#container');
     this.btnPlay = $('#btnPlay');
@@ -35,23 +35,26 @@ function Curve() {
         self.onclickRandomStart1234()
     }
 
+    this.hashToParam();
     this.onclickStart();
 }
 
 Curve.prototype.paramToHash = function () {
     var hash = '#main';
-    var arr = [this.r, this.d, this.a1, this.a2, this.a3, this.a4, this.color];
+    var arr = [this.r, this.d, this.a1, this.a2, this.a3, this.a4];
     for (var i = 0; i < arr.length; i++) {
         hash += '/' + arr[i];
     }
+    console.log('param to hash:', hash);
     window.location.href = hash;
+    console.log(window.location.href);
 }
 
 Curve.prototype.hashToParam = function () {
     var hash = window.location.hash;
     var arr = hash.split('/');
     console.log(arr);
-    if (arr.length != 9) {
+    if (arr.length != 7) {
         console.log('arr length error');
         return;
     }
@@ -62,7 +65,6 @@ Curve.prototype.hashToParam = function () {
     this.a2 = parseFloat(arr[i++]);
     this.a3 = parseFloat(arr[i++]);
     this.a4 = parseFloat(arr[i++]);
-    this.color = arr[i++];
 }
 
 
