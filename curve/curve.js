@@ -10,7 +10,7 @@ function Curve() {
     this.step = 0.001;
 
     this.times = 500;
-    this.R = 720;
+    this.R = 700;
     this.r = parseInt(this.R / 2) + 7;
     this.d = parseInt(this.r / 2) + 7;
 
@@ -22,6 +22,7 @@ function Curve() {
     this.color = this.randColor();
 
     this.container = $('#container');
+    this.bar = $('#bar');
     this.btnPlay = $('#btnPlay');
 
     window.start = function () {
@@ -153,9 +154,9 @@ Curve.prototype.init = function () {
     console.log(this.container.get(0));
     this.container.html('');
     this.container
-        .width(this.w + this.size)
-        .height(this.h + this.size)
-        .addClass('container');
+        .width(this.m * 2)
+        .height(this.m * 2);
+    this.bar.width(this.m * 2);
 
     this.canvas = $('<canvas></canvas>')
         .appendTo(this.container)
