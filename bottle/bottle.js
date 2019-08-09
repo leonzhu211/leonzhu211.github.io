@@ -1,7 +1,7 @@
 function State(occupied, parent, action) {
     this.occupied = occupied;
-    this.parent = parent;
     this.action = action;
+    this.parent = parent;
     this.children = [];
     if (parent != null) {
         parent.children.push(this);
@@ -23,6 +23,16 @@ State.prototype.inPath = function(child) {
     return false;
 }
 
+State.prototype.getPathLength = function() {
+    var state = this;
+    var len = 0;
+    while (state != null) {
+        len++;
+        state = state.parent;
+    }
+    return len;
+}
+
 function Puzzle() {
     var self = this;
 
@@ -32,8 +42,15 @@ function Puzzle() {
 }
 
 Puzzle.prototype.init = function() {
-    this.capacity = [13, 7, 19];
-    this.occupied = [13, 7, 0];
+    var a = parseInt($('#a').val());
+    var b = parseInt($('#b').val());
+    var c = parseInt($('#c').val());
+    var ga = parseInt($('#ga').val());
+    var gb = parseInt($('#gb').val());
+    var gc = parseInt($('#gc').val());
+    this.capacity = [a, b, c];
+    this.occupied = [a, b, 0];
+    this.goal = [ga, gb, 0]
 
     this.rootState = new State(this.occupied, null, 'init');
     this.actions = [
@@ -41,13 +58,17 @@ Puzzle.prototype.init = function() {
         '2->3', '2->1',
         '3->1', '3->2'
     ];
+
+    this.resultStates = [];
 }
 
 // 两个 10 升
 Puzzle.prototype.goalTest = function(state) {
     var occupied = state.occupied.slice();
+    var goal = this.goal.slice();
+    goal.sort();
     occupied.sort();
-    if (occupied[0] == 0 && occupied[1] == 10 && occupied[2] == 10) {
+    if (occupied[0] == goal[0] && occupied[1] == goal[1] && occupied[2] == goal[2]) {
         return true;
     } else {
         return false;
@@ -92,7 +113,7 @@ Puzzle.prototype.doAction = function(state, action) {
 Puzzle.prototype.searchState = function(state) {
     //console.log('search', state.occupied);
     if (this.goalTest(state)) {
-        this.printResult(state);
+        this.resultStates.push(state);
         return;
     }
     for (var i = 0; i < this.actions.length; i++) {
@@ -111,16 +132,79 @@ Puzzle.prototype.printResult = function(state) {
         state = state.parent;
     }
     path.reverse();
+    var output = $('#resultOutput');
+    output.empty();
     for (var i = 0; i < path.length; i++) {
         var state = path[i];
-        console.log(state.action, state.occupied);
+        var step = $("<div></div>");
+        output.append(step);
+        var action = $("<span>" + state.action + "</span>");
+        action.addClass('action');
+        step.append(action);
+        for (var j = 0; j < state.occupied.length; j++) {
+            var value = state.occupied[j];
+            var occupied = $("<span>" + value + "</span>");
+            step.append(occupied);
+            occupied.addClass('occupied');
+        }
     }
 }
 
+Puzzle.prototype.printResultList = function() {
+    for (var i = 0; i < this.resultStates.length; i++) {
+        var state = this.resultStates[i];
+        console.log(i, state.getPathLength());
+    }
+}
+
+Puzzle.prototype.numberPrefix = function(num, max) {
+    var p = 1;
+    var i = 0;
+    while (i < max) {
+        p *= 10;
+        if (p > num) {
+            break;
+        }
+        i++;
+    }
+    var prefix = '';
+    for (var j = 0; j < max - i - 1; j++) {
+        prefix += '&nbsp;';
+    }
+    return prefix + num;
+}
+
+Puzzle.prototype.fillResultSelector = function() {
+    var self = this;
+    var selector = $('#resultSelector');
+    selector.empty();
+    selector.css('display', 'block');
+    selector.on('change', function() {
+        var idx = selector.val();
+        var state = self.resultStates[idx];
+        self.printResult(state);
+    });
+    for (var i = 0; i < this.resultStates.length; i++) {
+        var state = this.resultStates[i];
+        var option = $('<OPTION></OPTION');
+        option.html(this.numberPrefix(i + 1, 4) + ': ' + (state.getPathLength() - 1) + '步');
+        option.val(i);
+        selector.append(option);
+    }
+    selector.trigger('change');
+}
+
 Puzzle.prototype.start = function() {
-    console.log('start:', this.rootState.occupied);
     this.searchState(this.rootState);
-    console.log('finished');
+    this.resultStates.sort(function(a, b) {
+        return a.getPathLength() - b.getPathLength();
+    });
+    if (this.resultStates.length == 0) {
+        $('#resultSelector').css('display', 'none');
+        $('#resultOutput').html('未找到任何解决方案');
+    } else {
+        this.fillResultSelector();
+    }
 }
 
 Puzzle.prototype.onClickStart = function() {

@@ -11,10 +11,23 @@
 <body>
     <h1>倒水问题</h1>
     <p>
-    现在两两杯水，一杯13升，一杯7升，另有一个19升的空杯子。你要想办法，通过在三个杯子中倒来倒去，最终得到2杯10升的水。
+    现在两杯水，一杯13升，一杯7升，另有一个19升的空杯子。你要想办法，通过在三个杯子中倒来倒去，最终得到2杯10升的水。
     </p>
     <div>
+        <input type='text' id='a' value='13' />
+        <input type='text' id='b' value='7' />
+        <input type='text' id='c' value='19' />
+        <br/>
+        <input type='text' id='ga' value='10' />
+        <input type='text' id='gb' value='10' />
+        <input type='text' id='gc' value='0' disabled />
+        <br/>
         <input type='button' onclick='onClickStart()' value='开始' />
+        <br/>
+        <select id='resultSelector' style='display: none;'>
+        </select>
+        <div id='resultOutput'>
+        </div>
     </div>
     <div id='container'>
 

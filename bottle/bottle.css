@@ -1,3 +1,21 @@
+body {
+    padding: 20px;
+}
+
 .container {
     border: 1px solid white;
+}
+
+.action {
+    width: 50px;
+    text-align: right;
+    color: blue;
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.occupied {
+    width: 30px;
+    text-align: right;
+    display: inline-block;
 }
