@@ -93,10 +93,11 @@ Puzzle.prototype.doAction = function(state, action) {
     var space = this.capacity[dst] - occupied[dst];
 
     // 倒水的量
-    // 要到源倒光，要么目标倒满
     var num = Math.min(water, space);
 
     // 没有实际动作
+    // 源已经倒光了
+    // 或目标已经满了
     if (num == 0) {
         return null;
     }
