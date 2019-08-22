@@ -5,11 +5,11 @@ date:   2019-8-22 22:00:00 +0800
 categories: AI
 ---
 
-# 问题描述
+## 问题描述
 
 现在两杯水，一杯13升，一杯7升，另有一个19升的空杯子。你要想办法，通过在三个杯子中倒来倒去，最终得到2杯10升的水。
 
-# 基于搜索解决问题
+## 基于搜索解决问题
 
 本文描述的方法源自《Artificial Intelligence - A Modern Approach》中第三章“SOLVING PROBLEMS BY SEARCHING”。
 
@@ -22,11 +22,11 @@ categories: AI
 5. Goal Test 目标测试
 6. Path Cost 路径成本
 
-# 倒水问题的定义
+## 倒水问题的定义
 
 按上述六点，对倒水问题进行定义。
 
-## States
+### States
 
 状态由瓶子中装了多少水描述。共有三个瓶子，所以状态可以描述为一个含有三个元素的数组Array或元组Tuple。本文的代码示例为 javascript，所以采用数组描述。每个状态为一个数组。
 
@@ -60,7 +60,7 @@ children 用于存放子状态。
 
 状态的方法有:
 
-### 判断两个状态是否相等
+#### 判断两个状态是否相等
 ```js
 State.prototype.equal = function(state) {
     return this.occupied[0] == state.occupied[0] && this.occupied[1] == state.occupied[1] && this.occupied[2] == state.occupied[2];
@@ -68,7 +68,7 @@ State.prototype.equal = function(state) {
 ```
 只需要比较三个瓶子装水的体积。状态的其他成员主要用于描述状态之间的关系，在进行相等比较时，不需要使用。
 
-### 状态是否出现在路径中
+#### 状态是否出现在路径中
 ```js
 State.prototype.inPath = function(child) {
     var state = this;
@@ -83,7 +83,7 @@ State.prototype.inPath = function(child) {
 ```
 本文所述的搜索实际是深度优先，为了避免陷入死循环，需要判断状态是否在路径中已经出现过。
 
-### 获取状态对应的路径长度
+#### 获取状态对应的路径长度
 ```js
 State.prototype.getPathLength = function() {
     var state = this;
@@ -97,7 +97,7 @@ State.prototype.getPathLength = function() {
 ```
 根状态的特征是上级状态为空。根状态即为初始状态。
 
-## Initial State
+### Initial State
 
 初始状态即为问题根状态。
 ```js
@@ -109,7 +109,7 @@ State.prototype.getPathLength = function() {
 
 初始状态的动作，没有太大意义，传入 init 只是为了让一些逻辑的代码统一。
 
-## Action
+### Action
 
 动作即倒水。三个瓶子，依次编号为1,2,3。动作以字符串记录，采用 s->d 的格式，其中 s 和 d 为瓶子的编号。
 
@@ -123,7 +123,7 @@ State.prototype.getPathLength = function() {
     ];
 ```
 
-## ransition Model
+### Transition Model
 
 模型描述了倒水的实际意义，即动作对状态的影响。代码中由函数 doAction 描述。
 ```js
@@ -160,7 +160,7 @@ Puzzle.prototype.doAction = function(state, action) {
 ```
 并不是所有的瓶子之间，都可以相互倒水。在源中没有水，或目标瓶子已经满了的情况下，倒水的动作不可能发生，此时返回 null 表示不能产生一个有效的子状态。
 
-## Goal Test
+### Goal Test
 
 题目规定要倒出两瓶10升的水，但并没有限制是哪两个瓶子。当然对本题，一定是1号瓶和3号瓶，因为2号瓶只有7升。为了让程序的参数可配置，目标测试的逻辑也基于参数实现。
 
@@ -182,11 +182,11 @@ Puzzle.prototype.goalTest = function(state) {
 
 由于目标测试不限制瓶子的编号，所以在排序后进行比较，即可实现这一点。
 
-## Path Cost
+### Path Cost
 
 可以认为每一次倒水的Step Cost为1，则搜索到一个解的时候，Path Cost 即为 Path Length。这也是 State 对象为什么会有一个 getPathLength 方法的原因。
 
-# 深度优先搜索
+## 深度优先搜索
 
 
 ```js
@@ -207,6 +207,6 @@ Puzzle.prototype.searchState = function(state) {
 ```
 在所有基础部件准备好之后，搜索的逻辑很简单。每搜索到一个解，将结果追加到 resultStates 中。所有的 State 形成一棵树，部分叶子结点是问题的解，其他叶子结点是出现死循环的状态，即已经在路径出现过的状态。
 
-# 演示
+## 演示
 
 [演示链接](/bottle/index.html)
