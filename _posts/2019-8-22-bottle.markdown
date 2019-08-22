@@ -1,0 +1,212 @@
+---
+layout: post
+title:  "倒水问题"
+date:   2019-8-22 22:00:00 +0800
+categories: AI
+---
+
+# 问题描述
+
+现在两杯水，一杯13升，一杯7升，另有一个19升的空杯子。你要想办法，通过在三个杯子中倒来倒去，最终得到2杯10升的水。
+
+# 基于搜索解决问题
+
+本文描述的方法源自《Artificial Intelligence - A Modern Approach》中第三章“SOLVING PROBLEMS BY SEARCHING”。
+
+对每一个问题都需要定义以下几点：
+
+1. States 状态
+2. Initial State 初始状态
+3. Actions 动作
+4. Transition Model 状态转换模型
+5. Goal Test 目标测试
+6. Path Cost 路径成本
+
+# 倒水问题的定义
+
+按上述六点，对倒水问题进行定义。
+
+## States
+
+状态由瓶子中装了多少水描述。共有三个瓶子，所以状态可以描述为一个含有三个元素的数组Array或元组Tuple。本文的代码示例为 javascript，所以采用数组描述。每个状态为一个数组。
+
+需要区分的是，问题中的三个数值 13, 7, 19 实际是瓶子的容量。第三个瓶子是空的，所以实际装的水为0。
+
+```js
+[13, 7, 0]
+```
+
+但直接用数组，无法描述状态之间的关系。状态State由动作Action，按模型TransitionModel定义的规则进行切换，每一个状态，都对应一个上级状态Parent和一个动作Action。可以用一个类描述
+
+```js
+function State(occupied, parent, action) {
+    this.occupied = occupied;
+    this.action = action;
+    this.parent = parent;
+    this.children = [];
+    if (parent != null) {
+        parent.children.push(this);
+    }
+}
+```
+
+其中 occupied 为三个瓶子装水的体积，即前述的`[13, 7, 0]`这种数组。
+
+action 为字符串，详见后述。
+
+parent 为上级状态。
+
+children 用于存放子状态。
+
+状态的方法有:
+
+### 判断两个状态是否相等
+```js
+State.prototype.equal = function(state) {
+    return this.occupied[0] == state.occupied[0] && this.occupied[1] == state.occupied[1] && this.occupied[2] == state.occupied[2];
+}
+```
+只需要比较三个瓶子装水的体积。状态的其他成员主要用于描述状态之间的关系，在进行相等比较时，不需要使用。
+
+### 状态是否出现在路径中
+```js
+State.prototype.inPath = function(child) {
+    var state = this;
+    while (state != null) {
+        if (state.equal(child)) {
+            return true;
+        }
+        state = state.parent;
+    }
+    return false;
+}
+```
+本文所述的搜索实际是深度优先，为了避免陷入死循环，需要判断状态是否在路径中已经出现过。
+
+### 获取状态对应的路径长度
+```js
+State.prototype.getPathLength = function() {
+    var state = this;
+    var len = 0;
+    while (state != null) {
+        len++;
+        state = state.parent;
+    }
+    return len;
+}
+```
+根状态的特征是上级状态为空。根状态即为初始状态。
+
+## Initial State
+
+初始状态即为问题根状态。
+```js
+    this.rootState = new State(this.occupied, null, 'init');
+```
+其中 this.occupied 是根据参数生成的包含三个元素的数组 [13, 7, 0]。
+
+初始状态没有上级状态，所以 parent 参数为 null。
+
+初始状态的动作，没有太大意义，传入 init 只是为了让一些逻辑的代码统一。
+
+## Action
+
+动作即倒水。三个瓶子，依次编号为1,2,3。动作以字符串记录，采用 s->d 的格式，其中 s 和 d 为瓶子的编号。
+
+三个瓶子相互倒水，共有6种倒法。
+
+```js
+    this.actions = [
+        '1->2', '1->3',
+        '2->3', '2->1',
+        '3->1', '3->2'
+    ];
+```
+
+## ransition Model
+
+模型描述了倒水的实际意义，即动作对状态的影响。代码中由函数 doAction 描述。
+```js
+Puzzle.prototype.doAction = function(state, action) {
+    var arr = action.split('->');
+    var src = parseInt(arr[0]) - 1;
+    var dst = parseInt(arr[1]) - 1;
+
+    // 复制状态
+    var occupied = state.occupied.slice();
+
+    // 有多少水
+    var water = occupied[src];
+
+    // 有多少空间
+    var space = this.capacity[dst] - occupied[dst];
+
+    // 倒水的量
+    var num = Math.min(water, space);
+
+    // 没有实际动作
+    // 源已经倒光了
+    // 或目标已经满了
+    if (num == 0) {
+        return null;
+    }
+
+    occupied[src] -= num;
+    occupied[dst] += num;
+
+    var child = new State(occupied, state, action);
+    return child;
+}
+```
+并不是所有的瓶子之间，都可以相互倒水。在源中没有水，或目标瓶子已经满了的情况下，倒水的动作不可能发生，此时返回 null 表示不能产生一个有效的子状态。
+
+## Goal Test
+
+题目规定要倒出两瓶10升的水，但并没有限制是哪两个瓶子。当然对本题，一定是1号瓶和3号瓶，因为2号瓶只有7升。为了让程序的参数可配置，目标测试的逻辑也基于参数实现。
+
+```js
+Puzzle.prototype.goalTest = function(state) {
+    var occupied = state.occupied.slice();
+    var goal = this.goal.slice();
+    goal.sort();
+    occupied.sort();
+    if (occupied[0] == goal[0] && occupied[1] == goal[1] && occupied[2] == goal[2]) {
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+其中 goal 与 occupied 类似，也采用三元数组的形式，例如 [10, 10, 0]。
+
+由于目标测试不限制瓶子的编号，所以在排序后进行比较，即可实现这一点。
+
+## Path Cost
+
+可以认为每一次倒水的Step Cost为1，则搜索到一个解的时候，Path Cost 即为 Path Length。这也是 State 对象为什么会有一个 getPathLength 方法的原因。
+
+# 深度优先搜索
+
+
+```js
+Puzzle.prototype.searchState = function(state) {
+    //console.log('search', state.occupied);
+    if (this.goalTest(state)) {
+        this.resultStates.push(state);
+        return;
+    }
+    for (var i = 0; i < this.actions.length; i++) {
+        var action = this.actions[i];
+        var child = this.doAction(state, action);
+        if (child != null && !state.inPath(child)) {
+            this.searchState(child);
+        }
+    }
+}
+```
+在所有基础部件准备好之后，搜索的逻辑很简单。每搜索到一个解，将结果追加到 resultStates 中。所有的 State 形成一棵树，部分叶子结点是问题的解，其他叶子结点是出现死循环的状态，即已经在路径出现过的状态。
+
+# 演示
+
+[演示链接](/bottle/index.html)
